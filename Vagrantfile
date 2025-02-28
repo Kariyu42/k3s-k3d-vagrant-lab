@@ -1,26 +1,20 @@
-API_VERSION = "2"
+Vagrant.configure("2") do |config|
 
-Vagrant.configure(API_VERSION) do |config|
+  machines = {
+    "kquetat-S" => "192.168.56.110",
+    "kquetat-SW" => "192.168.56.111"
+  }
 
-  # Configuration of the first machine
-  config.vm.define "kquetat-S" do |server|
-    server.vm.box = "generic/alpine318"
-    server.vm.hostname = "kquetat-S"
-    server.vm.network "private_network", ip: "192.168.56.110"
-    server.vm.provider "virtualbox" do |vb|
-      vb.cpus = "1"
-      vb.memory = "512"
-    end
-  end
+  machines.each do |machine_name, machine_ip|
+    config.vm.define machine_name do |machine|
+      machine.vm.box = "generix/alpine318"
+      machine.vm.hostname = machine_name
+      machine.vm.network "private_network", ip: machine_ip
 
-   # Configuration of the second machine
-  config.vm.define "kquetat-SW" do |worker|
-    worker.vm.box = "generic/alpine318"
-    worker.vm.hostname = "kquetat-SW"
-    worker.vm.network "private_network", ip: "192.168.56.111"
-    worker.vm.provider "virtualbox" do |vb|
-      vb.cpus = "1"
-      vb.memory = "512"
+      machine.vm.provider :virtualbox do |provider|
+        provider.cpus = 1
+        provider.memory = 512
+      end
     end
   end
 
