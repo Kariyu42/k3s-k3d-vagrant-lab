@@ -1,6 +1,9 @@
-API_VERSION = "2"
+machine = {
+  "kquetat-S" => "192.168.56.110"
+  "kquetat-SW" => "192.168.56.111"
+}
 
-Vagrant.configure(API_VERSION) do |config|
+Vagrant.configure("2") do |config|
 
   # Configuration of the first machine
   config.vm.define "kquetat-S" do |server|
